@@ -39,7 +39,7 @@ export class pluginUtils {
         }
     }
 
-    async getFileNameForSave(): Promise<string> {
+    async getFileNameForSave(): Promise<string | null> {
         const option: savingNameFileFormatOption = this.plugin.settings.savingNameFileFormat
         let defaultPath: string = "";
 
@@ -94,17 +94,8 @@ export class pluginUtils {
                     this.plugin.app,
                     this.plugin.settings.folder
                 );
-
-                if (fullPath) {
-                    return fullPath;
-                }
+                return fullPath;
             }
-
-                const folder = this.plugin.settings.folder;
-                const date = Date.now().toString()
-                const extension = '.drawio.svg';
-
-                defaultPath = normalizePath(`${folder}/${date}${extension}`);
 
             default: return defaultPath;
         }
