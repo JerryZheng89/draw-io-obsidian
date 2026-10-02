@@ -28,8 +28,11 @@
    the line width) exactly like reading mode. Some themes only cap img
    max-width inside .markdown-preview-view, and older app versions inflated
    unsized embed images to width:100% — pin the behavior here instead of
-   relying on either. */
-.internal-embed.media-embed.drawio-diagram--editmode .image-wrapper img:not([width]) {
+   relying on either. The check goes on the embed span's [width] attribute:
+   Obsidian only sets it for explicit |N / |% sizes, while the img itself may
+   get a width attribute from persisted/rendered dimensions even when the
+   source has no size. */
+.internal-embed.media-embed.drawio-diagram--editmode:not([width]) .image-wrapper img {
     width: auto !important;
     max-width: 100% !important;
 }
