@@ -24,6 +24,16 @@
     justify-content: center !important;
 }
 
+/* In Live Preview the diagram img must render at its natural size (capped by
+   the line width) exactly like reading mode. Some themes only cap img
+   max-width inside .markdown-preview-view, and older app versions inflated
+   unsized embed images to width:100% — pin the behavior here instead of
+   relying on either. */
+.media-embed.drawio-diagram--editmode img:not([width]) {
+    width: auto !important;
+    max-width: 100% !important;
+}
+
 .drawio-external-link-tooltip {
     position: absolute;
     border: var(--border-width) solid var(--background-modifier-border);
