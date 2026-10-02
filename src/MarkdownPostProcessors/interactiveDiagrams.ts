@@ -56,10 +56,12 @@ export async function interactiveDiagramss(plugin: DrawioPlugin) {
                                     img.insertAdjacentElement("afterend", svgElement);
 
                                     const syncOverlay = () => {
-                                        img.style.left = `${svgElement.offsetLeft}px`;
-                                        img.style.top = `${svgElement.offsetTop}px`;
-                                        img.style.width = `${svgElement.offsetWidth}px`;
-                                        img.style.height = `${svgElement.offsetHeight}px`;
+                                        const rect = svgElement.getBoundingClientRect();
+                                        const parentRect = element.getBoundingClientRect();
+                                        img.style.left = `${rect.left - parentRect.left}px`;
+                                        img.style.top = `${rect.top - parentRect.top}px`;
+                                        img.style.width = `${rect.width}px`;
+                                        img.style.height = `${rect.height}px`;
                                     };
                                     new ResizeObserver(syncOverlay).observe(svgElement);
                                     syncOverlay();
