@@ -29,7 +29,7 @@
    max-width inside .markdown-preview-view, and older app versions inflated
    unsized embed images to width:100% — pin the behavior here instead of
    relying on either. */
-.internal-embed.media-embed.drawio-diagram--editmode .drawio-diagram-wrapper img:not([width]) {
+.internal-embed.media-embed.drawio-diagram--editmode .image-wrapper img:not([width]) {
     width: auto !important;
     max-width: 100% !important;
 }
