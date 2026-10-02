@@ -43,10 +43,18 @@ export async function interactiveDiagramss(plugin: DrawioPlugin) {
 
                                     svgElement.classList.add("drawio-interactive-diagram");
 
-                                    // Keep the img in the DOM (hidden): Obsidian's native
-                                    // click-to-zoom lightbox is bound to the img element, so
-                                    // removing it disables zoom for drawio diagrams.
-                                    img.style.display = "none";
+                                    // Keep the img in the DOM as an invisible overlay on the
+                                    // svg: Obsidian's native click-to-zoom lightbox is bound
+                                    // to the img element and animates from its rect, so the
+                                    // img must keep a layout box matching the diagram
+                                    // (display:none would make the zoom animate from the
+                                    // top-left corner of the page).
+                                    img.style.position = "absolute";
+                                    img.style.inset = "0";
+                                    img.style.width = "100%";
+                                    img.style.height = "100%";
+                                    img.style.visibility = "hidden";
+                                    element.style.position = "relative";
                                     img.insertAdjacentElement("afterend", svgElement);
 
                                     // Forward clicks on the interactive svg to the hidden
