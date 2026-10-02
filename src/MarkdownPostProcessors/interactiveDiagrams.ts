@@ -43,7 +43,19 @@ export async function interactiveDiagramss(plugin: DrawioPlugin) {
 
                                     svgElement.classList.add("drawio-interactive-diagram");
 
-                                    img.replaceWith(svgElement);
+                                    // Keep the img in the DOM (hidden): Obsidian's native
+                                    // click-to-zoom lightbox is bound to the img element, so
+                                    // removing it disables zoom for drawio diagrams.
+                                    img.style.display = "none";
+                                    img.insertAdjacentElement("afterend", svgElement);
+
+                                    // Forward clicks on the interactive svg to the hidden
+                                    // img so the native lightbox still opens.
+                                    svgElement.addEventListener("click", (event) => {
+                                        const target = event.target as Element;
+                                        if (target.closest("a")) return;
+                                        img.click();
+                                    });
 
                                     svgelement = svgElement
                                 }
