@@ -43,19 +43,25 @@ export async function interactiveDiagramss(plugin: DrawioPlugin) {
 
                                     svgElement.classList.add("drawio-interactive-diagram");
 
-                                    // Keep the img in the DOM as an invisible overlay on the
-                                    // svg: Obsidian's native click-to-zoom lightbox is bound
-                                    // to the img element and animates from its rect, so the
-                                    // img must keep a layout box matching the diagram
-                                    // (display:none would make the zoom animate from the
-                                    // top-left corner of the page).
-                                    img.style.position = "absolute";
-                                    img.style.inset = "0";
-                                    img.style.width = "100%";
-                                    img.style.height = "100%";
+                                    // Keep the img in flow but invisible: Obsidian's native
+                                    // click-to-zoom lightbox is bound to the img element and
+                                    // animates from its rect, so the img must keep the
+                                    // diagram's layout box (display:none would make the
+                                    // zoom animate from the top-left corner). The svg is
+                                    // positioned exactly over the img instead.
                                     img.style.visibility = "hidden";
                                     element.style.position = "relative";
+                                    svgElement.style.position = "absolute";
                                     img.insertAdjacentElement("afterend", svgElement);
+
+                                    const syncOverlay = () => {
+                                        svgElement.style.left = `${img.offsetLeft}px`;
+                                        svgElement.style.top = `${img.offsetTop}px`;
+                                        svgElement.style.width = `${img.offsetWidth}px`;
+                                        svgElement.style.height = `${img.offsetHeight}px`;
+                                    };
+                                    new ResizeObserver(syncOverlay).observe(img);
+                                    syncOverlay();
 
                                     // Forward clicks on the interactive svg to the hidden
                                     // img so the native lightbox still opens.
